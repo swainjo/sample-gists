@@ -56,8 +56,8 @@ RETURN *
 
 [source,cypher]
 ----
-MATCH 		(j:Job)--(p:Person) 
-RETURN 		p,j
+MATCH 		(j:Job)-[r]-(p:Person) 
+RETURN 		p.FirstName,r,j.Title
 ----
 
 //output
