@@ -212,7 +212,7 @@ MATCH (p1:Person { FirstName:'John' })--(p2:Person)-[:EMPLOYED_AT|EMPLOYED_AS*1.
 WHERE c.Name <> 'Neo Technology' 
 WITH p2,c 
 MATCH (c)-[:EMPLOYED_AT|EMPLOYED_AS*1..2]-(p:Person { FirstName: 'Gabe' }) 
-RETURN DISTINCT p2,c
+RETURN DISTINCT p2,FirstName as Name ,c.Name as Company
 ----
 
 //output
