@@ -1,0 +1,65 @@
+= Job Application
+:neo4j-version: 2.0.0-RC1
+:author: John Swain
+:twitter: @Swainjo
+:tags: domain:recruitment, use-case:recruitment
+
+This interactive Neo4j graph tutorial covers bank fraud detection scenarios.
+
+
+
+== Sample Data Set
+
+//setup
+[source,cypher]
+----
+
+// Create people
+CREATE (Person1:Person { 
+       		FirstName: "John", 
+       		LastName: "Swain", 
+       		UniqueId: "Swainjo" }) 
+CREATE (Person2:Person { 
+       		FirstName: "Gabe", 
+       		LastName: "Stanek", 
+       		UniqueId: "Stanekga" })
+CREATE (Person3:Person { 
+       		FirstName: "Rik", 
+       		LastName: "Van Bruggen", 
+       		UniqueId: "Vanbruggenri" })
+CREATE (Person4:Person { 
+       		FirstName: "Nicole", 
+       		LastName: "White", 
+       		UniqueId: "Whiteno" })
+
+// Connect People
+CREATE (Person1)-[:IS_LINKEDIN_CONTACT]->(Person3)
+
+// Create Job
+CREATE (Job1:Job { 
+       		Title: "Pre Sales Engineer" })
+// Connect Job
+CREATE (Person1)-[:APPLIED_FOR]->(Job1),
+CREATE (Person2)-[:HIRING_FOR]->(Job1)
+
+
+RETURN *
+----
+
+//graph
+
+'''
+
+== Job Application Analysis
+
+==== Show relationship between Job and People
+
+[source,cypher]
+----
+MATCH 		(j:Job)-[]->(p:Person) 
+RETURN 		p,j
+----
+
+//output
+//table
+
