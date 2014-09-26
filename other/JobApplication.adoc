@@ -40,7 +40,7 @@ CREATE (Job1:Job {
        		Title: "Pre Sales Engineer" })
 // Connect Job
 CREATE (Person1)-[:APPLIED_FOR]->(Job1),
-CREATE (Person2)-[:HIRING_FOR]->(Job1)
+	   (Person2)-[:HIRING_FOR]->(Job1)
 
 
 RETURN *
