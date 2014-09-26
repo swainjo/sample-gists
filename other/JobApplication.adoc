@@ -85,7 +85,7 @@ CREATE (Person2)-[:EMPLOYED_AS]->(Job1),
 	   (Job3)-[:JOB_TYPE]->(Jobrole3),
 	   (Job1)-[:EMPLOYED_AT]->(Company2),
 	   (Job2)-[:EMPLOYED_AT]->(Company1),
-	   (Job3)-[:EMPLOYED_AT]->(Company2),
+	   (Job3)-[:EMPLOYED_AT]->(Company2)
 
 
 // Create Skills
