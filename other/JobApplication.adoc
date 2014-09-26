@@ -46,23 +46,46 @@ CREATE (Person1)-[:APPLIED_FOR]->(Job1),
 CREATE (Skill1:Skill { 
        		Name: "Neo4j" }) 
 CREATE (Skill2:Skill { 
-       		Name: "Pre Sales" }) 
+       		Name: "Cyper" }) 
 CREATE (Skill3:Skill { 
        		Name: "Linux" }) 
 CREATE (Skill4:Skill { 
        		Name: "Java" }) 
 CREATE (Skill5:Skill { 
        		Name: "SQL" }) 
+CREATE (Skill6:Skill { 
+       		Name: "Presentation" }) 
 
 // Connect Skills
 CREATE (Person1)-[:HAS_SKILL]->(Skill1),
 	   (Person1)-[:HAS_SKILL]->(Skill2),
 	   (Person1)-[:HAS_SKILL]->(Skill3),
 	   (Person1)-[:HAS_SKILL]->(Skill5),
+	   (Person1)-[:HAS_SKILL]->(Skill6),
 	   (Job1)-[:REQUIRES_SKILL]->(Skill1),
 	   (Job1)-[:REQUIRES_SKILL]->(Skill2),
 	   (Job1)-[:REQUIRES_SKILL]->(Skill3),
-	   (Job1)-[:REQUIRES_SKILL]->(Skill4)
+	   (Job1)-[:REQUIRES_SKILL]->(Skill4),
+	   (Job1)-[:REQUIRES_SKILL]->(Skill6)
+
+// Create Experience
+CREATE (Experience1:Experience { 
+       		Name: "Pre Sales",
+       		Years: 18 }) 
+CREATE (Experience2:Experience { 
+       		Name: "Product Presentation",
+       		Years: 18 })
+CREATE (Experience3:Experience { 
+       		Name: "Product Development",
+       		Years: 14 })  
+
+// Connect Experience
+CREATE (Person1)-[:HAS_EXPERIENCE]->(Experience1),
+	   (Person1)-[:HAS_EXPERIENCE]->(Experience2),
+	   (Person1)-[:HAS_EXPERIENCE]->(Experience3), 		      		 
+	   (Job1)-[:REQUIRES_EXPERIENCE]->(Experience1),
+	   (Job1)-[:REQUIRES_EXPERIENCE]->(Experience2),
+	   (Job1)-[:REQUIRES_EXPERIENCE]->(Experience3)
 
 RETURN *
 ----
@@ -85,15 +108,15 @@ RETURN p.FirstName As Name,type(r) as Relationship,j.Title as JobTitle
 //table
 '''
 '''
-==== Show relationship between Job and People and Skills
+==== Show relationship between Job and People and Skills/Experience
 
 [source,cypher]
 ----
-MATCH (j:Job)-[r1:REQUIRES_SKILL]-(s:Skill)
+MATCH (j:Job)-[r1:REQUIRES_SKILL|REQUIRES_EXPERIENCE]-(s:Skill)
 WITH s
-MATCH (s)-[r2:HAS_SKILL]-(p:Person) 
+MATCH (s)-[r2:HAS_SKILL|HAS_SKILL]-(p:Person) 
 RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill
 ----
 
 //output
-//graph
+//table
