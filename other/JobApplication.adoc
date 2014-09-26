@@ -1,4 +1,4 @@
-= Job Application
+= Jobrole Application
 :neo4j-version: 2.0.0-RC1
 :author: John Swain
 :twitter: @Swainjo
@@ -31,16 +31,62 @@ CREATE (Person4:Person {
        		FirstName: "Nicole", 
        		LastName: "White", 
        		UniqueId: "Whiteno" })
+CREATE (Person5:Person { 
+       		FirstName: "Nan", 
+       		LastName: "Yang", 
+       		UniqueId: "Yangna" })
+
+// Create Companies
+CREATE (Company1:Company { 
+       		Name: "Oracle"}) 
+CREATE (Company2:Company { 
+       		Name: "Neo Technology"}) 
+CREATE (Company3:Company { 
+       		Name: "Sun Microsystems"}) 
 
 // Connect People
 CREATE (Person1)-[:IS_LINKEDIN_CONTACT]->(Person3)
+CREATE (Person1)-[:IS_LINKEDIN_CONTACT]->(Person5)
+CREATE (Person3)-[:IS_LINKEDIN_CONTACT]->(Person2)
+CREATE (Person1)-[:IS_TWITTER_FOLLOWER]->(Person3)
+CREATE (Person3)-[:IS_TWITTER_FOLLOWER]->(Person1)
+CREATE (Person1)-[:IS_TWITTER_FOLLOWER]->(Person4)
+CREATE (Person4)-[:IS_TWITTER_FOLLOWER]->(Person1)
+CREATE (Person5)-[:REFERENCE_FOR]->(Person1)
+
+// Create Jobrole
+CREATE (Jobrole1:Jobrole { 
+       		Title: "Pre Sales Engineer" })
+CREATE (Jobrole2Jobrole { 
+       		Title: "Principal Sales Consultant" })
+CREATE (Jobrole3Jobrole { 
+       		Title: "Enterprise Architect" })
+CREATE (Jobrole4Jobrole { 
+       		Title: "Pre-Sales Director" })
+
+// Connect Jobrole
+CREATE (Person1)-[:APPLIED_FOR]->(Jobrole1),
+	   (Person2)-[:HIRING_FOR]->(Jobrole1)
 
 // Create Job
 CREATE (Job1:Job { 
-       		Title: "Pre Sales Engineer" })
+       		Title: "Team Lead and Master Principal Sales Consultant"})
+CREATE (Job2:Job { 
+       		Title: "Pre-Sales Director"})
+CREATE (Job3:Job { 
+       		Title: "Greater China Domain Leader, Enterprise Architecture"})
+
 // Connect Job
-CREATE (Person1)-[:APPLIED_FOR]->(Job1),
-	   (Person2)-[:HIRING_FOR]->(Job1)
+CREATE (Person2)-[:EMPLOYED_AS]->(Job1),
+	   (Person2)-[:EMPLOYED_AS]->(Job2),
+	   (Person5)-[:EMPLOYED_AS]->(Job3),
+	   (Job1)-[:JOB_TYPE]->(Jobrole2),
+	   (Job2)-[:JOB_TYPE]->(Jobrole4),
+	   (Job3)-[:JOB_TYPE]->(Jobrole3),
+	   (Job1)-[:EMPLOYED_AT]->(Company2),
+	   (Job2)-[:EMPLOYED_AT]->(Company1),
+	   (Job3)-[:EMPLOYED_AT]->(Company2),
+
 
 // Create Skills
 CREATE (Skill1:Skill { 
@@ -62,11 +108,11 @@ CREATE (Person1)-[:HAS_SKILL {Years : 1}]->(Skill1),
 	   (Person1)-[:HAS_SKILL {Years : 6}]->(Skill3),
 	   (Person1)-[:HAS_SKILL {Years : 20}]->(Skill5),
 	   (Person1)-[:HAS_SKILL {Years : 18}]->(Skill6),
-	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill1),
-	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill2),
-	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill3),
-	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill4),
-	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill6)
+	   (Jobrole1)-[:REQUIRES_SKILL {Years : 3}]->(Skill1),
+	   (Jobrole1)-[:REQUIRES_SKILL {Years : 3}]->(Skill2),
+	   (Jobrole1)-[:REQUIRES_SKILL {Years : 3}]->(Skill3),
+	   (Jobrole1)-[:REQUIRES_SKILL {Years : 3}]->(Skill4),
+	   (Jobrole1)-[:REQUIRES_SKILL {Years : 3}]->(Skill6)
 
 // Create Experience
 CREATE (Experience1:Experience { 
@@ -80,9 +126,11 @@ CREATE (Experience3:Experience {
 CREATE (Person1)-[:HAS_EXPERIENCE {Years : 18}]->(Experience1),
 	   (Person1)-[:HAS_EXPERIENCE {Years : 18}]->(Experience2),
 	   (Person1)-[:HAS_EXPERIENCE {Years : 12}]->(Experience3), 		      		 
-	   (Job1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience1),
-	   (Job1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience2),
-	   (Job1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience3)
+	   (Jobrole1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience1),
+	   (Jobrole1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience2),
+	   (Jobrole1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience3)
+
+
 
 RETURN *
 ----
@@ -91,25 +139,25 @@ RETURN *
 
 '''
 
-== Job Application Analysis
+== Jobrole Application Analysis
 
-==== Show relationship between Job and People
+==== Show relationship between Jobrole and People
 
 [source,cypher]
 ----
-MATCH (j:Job)-[r]-(p:Person) 
-RETURN p.FirstName As Name,type(r) as Relationship,j.Title as JobTitle
+MATCH (j:Jobrole)-[r]-(p:Person) 
+RETURN p.FirstName As Name,type(r) as Relationship,j.Title as JobroleTitle
 ----
 
 //output
 //table
 '''
 '''
-==== Show relationship between Job and People and Skills/Experience
+==== Show relationship between Jobrole and People and Skills/Experience
 
 [source,cypher]
 ----
-MATCH (j:Job)-[r1:REQUIRES_SKILL|REQUIRES_EXPERIENCE]-(s)
+MATCH (j:Jobrole)-[r1:REQUIRES_SKILL|REQUIRES_EXPERIENCE]-(s)
 WITH s
 MATCH (s)-[r2:HAS_SKILL|HAS_EXPERIENCE]-(p:Person) 
 RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill_Experience, r2.Years as Years
