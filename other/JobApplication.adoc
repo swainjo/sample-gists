@@ -77,8 +77,8 @@ RETURN *
 
 [source,cypher]
 ----
-MATCH 		(j:Job)-[r]-(p:Person) 
-RETURN 		p.FirstName,type(r),j.Title
+MATCH (j:Job)-[r]-(p:Person) 
+RETURN p.FirstName,type(r),j.Title
 ----
 
 //output
@@ -89,8 +89,10 @@ RETURN 		p.FirstName,type(r),j.Title
 
 [source,cypher]
 ----
-MATCH 		(j:Job)-[r1:REQUIRES_SKILL]-(s:Skill)-[r2:HAS_SKILL]-(p:Person) 
-RETURN 		p.FirstName,type(r2),j.Title
+MATCH (j:Job)-[r1:REQUIRES_SKILL]-(s:Skill)
+WITH s
+MATCH (s)-[r2:HAS_SKILL]-(p:Person) 
+RETURN 	p.FirstName,type(r2),j.Title
 ----
 
 //output
