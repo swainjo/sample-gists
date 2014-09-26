@@ -182,7 +182,7 @@ RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill_Experience
 
 [source,cypher]
 ----
-MATCH (p1:Person {FirstName:'John'})-[]-(c:Company {Name:'Neo Technology'})-[r]-(p1:Person)
+MATCH (p1:Person {FirstName:'John'})-[]-(c:Company {Name:'Neo Technology'})-[r]-(p2:Person)
 RETURN p2.FirstName as Name, p2.FirstName as KnowsName
 ----
 
