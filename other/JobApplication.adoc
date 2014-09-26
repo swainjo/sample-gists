@@ -178,3 +178,13 @@ RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill_Experience
 
 //output
 //table
+==== Show who John knows in Neo Technology
+
+[source,cypher]
+----
+MATCH (p1:Person {FirstName:'John'})-[]-(c:Company {Name:'Neo Technology'})-[r]-(p1:Person)
+RETURN p2.FirstName as Name, p2.FirstName as KnowsName
+----
+
+//output
+//table
