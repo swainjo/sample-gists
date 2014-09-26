@@ -41,6 +41,8 @@ CREATE (Company1:Company {
        		Name: "Oracle"}) 
 CREATE (Company2:Company { 
        		Name: "Neo Technology"}) 
+CREATE (Company3:Company { 
+       		Name: "Sun Microsystems"}) 
 
 // Connect People
 CREATE (Person1)-[:IS_LINKEDIN_CONTACT]->(Person3)
@@ -84,6 +86,8 @@ CREATE (Job4:Job {
        		Title: "Regional Director"})
 CREATE (Job5:Job { 
        		Title: "Developer Evangalist"})
+CREATE (Job6:Job { 
+       		Title: "Hong Kong, Enterprise Architecture"})
 
 
 // Connect Job
@@ -92,16 +96,19 @@ CREATE (Person2)-[:EMPLOYED_AS]->(Job1),
 	   (Person5)-[:EMPLOYED_AS]->(Job3),
 	   (Person3)-[:EMPLOYED_AS]->(Job4),
 	   (Person4)-[:EMPLOYED_AS]->(Job5),
+	   (Person5)-[:EMPLOYED_AS]->(Job6),
 	   (Job1)-[:JOB_TYPE]->(Jobrole2),
 	   (Job2)-[:JOB_TYPE]->(Jobrole4),
 	   (Job3)-[:JOB_TYPE]->(Jobrole3),
 	   (Job4)-[:JOB_TYPE]->(Jobrole5),
 	   (Job5)-[:JOB_TYPE]->(Jobrole6),
+	   (Job6)-[:JOB_TYPE]->(Jobrole3),
 	   (Job1)-[:EMPLOYED_AT]->(Company2),
 	   (Job2)-[:EMPLOYED_AT]->(Company1),
 	   (Job3)-[:EMPLOYED_AT]->(Company1),
 	   (Job4)-[:EMPLOYED_AT]->(Company2),
-	   (Job5)-[:EMPLOYED_AT]->(Company2)
+	   (Job5)-[:EMPLOYED_AT]->(Company2),
+	   (Job6)-[:EMPLOYED_AT]->(Company3)
 
 
 // Create Skills
@@ -181,12 +188,31 @@ RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill_Experience
 
 //output
 //table
-==== Show who John knows in Neo Technology
+
+'''
+'''
+==== Show who in Neo Technology knows John
 
 [source,cypher]
 ----
 MATCH (p1:Person { FirstName:'John' })<-[r]-(p2:Person)-[*1..2]-(c:Company { Name: 'Neo Technology' }) 
 RETURN p1.FirstName AS Name, p2.FirstName as NameOfContact, type(r) as Type
+----
+
+//output
+//table
+
+'''
+'''
+==== Show path to contacts who worked at same company as Gabe who know John
+
+[source,cypher]
+----
+MATCH (p1:Person { FirstName:'John' })--(p2:Person)-[:EMPLOYED_AT|EMPLOYED_AS*1..2]-(c:Company) 
+WHERE c.Name <> 'Neo Technology' 
+WITH p2,c 
+MATCH (c)-[:EMPLOYED_AT|EMPLOYED_AS*1..2]-(p:Person { FirstName: 'Gabe' }) 
+RETURN DISTINCT p2,c
 ----
 
 //output
