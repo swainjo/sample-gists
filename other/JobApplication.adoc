@@ -78,7 +78,7 @@ RETURN *
 [source,cypher]
 ----
 MATCH (j:Job)-[r]-(p:Person) 
-RETURN p.FirstName As Name,type(r) as Relationship,j.Title as Job Title
+RETURN p.FirstName As Name,type(r) as Relationship,j.Title as "Job Title"
 ----
 
 //output
