@@ -42,6 +42,27 @@ CREATE (Job1:Job {
 CREATE (Person1)-[:APPLIED_FOR]->(Job1),
 	   (Person2)-[:HIRING_FOR]->(Job1)
 
+// Create Skills
+CREATE (Skill1:Skill { 
+       		Name: "Neo4j" }) 
+CREATE (Skill2:Skill { 
+       		Name: "Pre Sales" }) 
+CREATE (Skill3:Skill { 
+       		Name: "Linux" }) 
+CREATE (Skill4:Skill { 
+       		Name: "Java" }) 
+CREATE (Skill5:Skill { 
+       		Name: "SQL" }) 
+
+// Connect Skills
+CREATE (Person1)-[:HAS_SKILL]->(Skill1),
+	   (Person1)-[:HAS_SKILL]->(Skill2),
+	   (Person1)-[:HAS_SKILL]->(Skill3),
+	   (Person1)-[:HAS_SKILL]->(Skill5),
+	   (Job1)-[:REQUIRES_SKILL]->(Skill1),
+	   (Job1)-[:REQUIRES_SKILL]->(Skill2),
+	   (Job1)-[:REQUIRES_SKILL]->(Skill3),
+	   (Job1)-[:REQUIRES_SKILL]->(Skill4)
 
 RETURN *
 ----
@@ -57,9 +78,20 @@ RETURN *
 [source,cypher]
 ----
 MATCH 		(j:Job)-[r]-(p:Person) 
-RETURN 		p.FirstName,r,j.Title
+RETURN 		p.FirstName,type(r),j.Title
 ----
 
 //output
 //table
+'''
+'''
+==== Show relationship between Job and People and Skills
 
+[source,cypher]
+----
+MATCH 		(j:Job)-[r1:REQUIRES_SKILL]-(s:Skill)-[r2:HAS_SKILL]-(p:Person) 
+RETURN 		p.FirstName,type(r2),j.Title
+----
+
+//output
+//table
