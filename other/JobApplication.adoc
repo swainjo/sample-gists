@@ -61,6 +61,10 @@ CREATE (Jobrole3:Jobrole {
        		Title: "Enterprise Architect" })
 CREATE (Jobrole4:Jobrole { 
        		Title: "Pre-Sales Director" })
+CREATE (Jobrole5:Jobrole { 
+       		Title: "Regional Director" })
+CREATE (Jobrole6:Jobrole { 
+       		Title: "Developer" })
 
 // Connect Jobrole
 CREATE (Person1)-[:APPLIED_FOR]->(Jobrole1),
@@ -73,17 +77,27 @@ CREATE (Job2:Job {
        		Title: "Pre-Sales Director"})
 CREATE (Job3:Job { 
        		Title: "Greater China Domain Leader, Enterprise Architecture"})
+CREATE (Job4:Job { 
+       		Title: "Regional Director"})
+CREATE (Job4:Job { 
+       		Title: "Developer Evangalist"})
+
 
 // Connect Job
 CREATE (Person2)-[:EMPLOYED_AS]->(Job1),
 	   (Person2)-[:EMPLOYED_AS]->(Job2),
 	   (Person5)-[:EMPLOYED_AS]->(Job3),
+	   (Person3)-[:EMPLOYED_AS]->(Job4),
+	   (Person4)-[:EMPLOYED_AS]->(Job5),
 	   (Job1)-[:JOB_TYPE]->(Jobrole2),
 	   (Job2)-[:JOB_TYPE]->(Jobrole4),
 	   (Job3)-[:JOB_TYPE]->(Jobrole3),
+	   (Job4)-[:JOB_TYPE]->(Jobrole2),
 	   (Job1)-[:EMPLOYED_AT]->(Company2),
 	   (Job2)-[:EMPLOYED_AT]->(Company1),
-	   (Job3)-[:EMPLOYED_AT]->(Company1)
+	   (Job3)-[:EMPLOYED_AT]->(Company1),
+	   (Job4)-[:EMPLOYED_AT]->(Company2),
+	   (Job5)-[:EMPLOYED_AT]->(Company2)
 
 
 // Create Skills
