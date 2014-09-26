@@ -114,7 +114,7 @@ RETURN p.FirstName As Name,type(r) as Relationship,j.Title as JobTitle
 ----
 MATCH (j:Job)-[r1:REQUIRES_SKILL|REQUIRES_EXPERIENCE]-(s)
 WITH s
-MATCH (s)-[r2:HAS_SKILL|HAS_SKILL]-(p:Person) 
+MATCH (s)-[r2:HAS_SKILL|HAS_EXPERIENCE]-(p:Person) 
 RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill
 ----
 
