@@ -56,7 +56,7 @@ RETURN *
 
 [source,cypher]
 ----
-MATCH 		(j:Job)-[]->(p:Person) 
+MATCH 		(j:Job)-->(p:Person) 
 RETURN 		p,j
 ----
 
