@@ -57,11 +57,11 @@ CREATE (Person5)-[:REFERENCE_FOR]->(Person1)
 // Create Jobrole
 CREATE (Jobrole1:Jobrole { 
        		Title: "Pre Sales Engineer" })
-CREATE (Jobrole2Jobrole { 
+CREATE (Jobrole2:Jobrole { 
        		Title: "Principal Sales Consultant" })
-CREATE (Jobrole3Jobrole { 
+CREATE (Jobrole3:Jobrole { 
        		Title: "Enterprise Architect" })
-CREATE (Jobrole4Jobrole { 
+CREATE (Jobrole4:Jobrole { 
        		Title: "Pre-Sales Director" })
 
 // Connect Jobrole
