@@ -44,8 +44,11 @@ CREATE (Company2:Company {
 
 // Connect People
 CREATE (Person1)-[:IS_LINKEDIN_CONTACT]->(Person3)
+CREATE (Person3)-[:IS_LINKEDIN_CONTACT]->(Person1)
 CREATE (Person1)-[:IS_LINKEDIN_CONTACT]->(Person5)
+CREATE (Person5)-[:IS_LINKEDIN_CONTACT]->(Person1)
 CREATE (Person3)-[:IS_LINKEDIN_CONTACT]->(Person2)
+CREATE (Person2)-[:IS_LINKEDIN_CONTACT]->(Person3)
 CREATE (Person1)-[:IS_TWITTER_FOLLOWER]->(Person3)
 CREATE (Person3)-[:IS_TWITTER_FOLLOWER]->(Person1)
 CREATE (Person1)-[:IS_TWITTER_FOLLOWER]->(Person4)
@@ -182,8 +185,8 @@ RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill_Experience
 
 [source,cypher]
 ----
-MATCH (p1:Person {FirstName:'John'})-[]-(c:Company {Name:'Neo Technology'})-[r]-(p2:Person)
-RETURN p2.FirstName as Name, p2.FirstName as KnowsName
+MATCH (p1:Person { FirstName:'John' })-[r]-(p2:Person)-[*1..2]-(c:Company { Name: 'Neo Technology' }) 
+RETURN p1.FirstName AS Name, p2.FirstName, type(r)
 ----
 
 //output
