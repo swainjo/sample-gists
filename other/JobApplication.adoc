@@ -96,4 +96,4 @@ RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill
 ----
 
 //output
-//table
+//graph
