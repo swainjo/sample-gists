@@ -92,7 +92,7 @@ RETURN p.FirstName,type(r),j.Title
 MATCH (j:Job)-[r1:REQUIRES_SKILL]-(s:Skill)
 WITH s
 MATCH (s)-[r2:HAS_SKILL]-(p:Person) 
-RETURN 	p.FirstName,type(r2),j.Title
+RETURN 	p.FirstName,type(r2),s.Name
 ----
 
 //output
