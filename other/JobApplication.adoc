@@ -57,35 +57,32 @@ CREATE (Skill6:Skill {
        		Name: "Presentation" }) 
 
 // Connect Skills
-CREATE (Person1)-[:HAS_SKILL]->(Skill1),
-	   (Person1)-[:HAS_SKILL]->(Skill2),
-	   (Person1)-[:HAS_SKILL]->(Skill3),
-	   (Person1)-[:HAS_SKILL]->(Skill5),
-	   (Person1)-[:HAS_SKILL]->(Skill6),
-	   (Job1)-[:REQUIRES_SKILL]->(Skill1),
-	   (Job1)-[:REQUIRES_SKILL]->(Skill2),
-	   (Job1)-[:REQUIRES_SKILL]->(Skill3),
-	   (Job1)-[:REQUIRES_SKILL]->(Skill4),
-	   (Job1)-[:REQUIRES_SKILL]->(Skill6)
+CREATE (Person1)-[:HAS_SKILL {Years : 1}]->(Skill1),
+	   (Person1)-[:HAS_SKILL {Years : 1}]->(Skill2),
+	   (Person1)-[:HAS_SKILL {Years : 6}]->(Skill3),
+	   (Person1)-[:HAS_SKILL {Years : 20}]->(Skill5),
+	   (Person1)-[:HAS_SKILL {Years : 18}]->(Skill6),
+	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill1),
+	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill2),
+	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill3),
+	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill4),
+	   (Job1)-[:REQUIRES_SKILL {Years : 3}]->(Skill6)
 
 // Create Experience
 CREATE (Experience1:Experience { 
-       		Name: "Pre Sales",
-       		Years: 18 }) 
+       		Name: "Pre Sales"}) 
 CREATE (Experience2:Experience { 
-       		Name: "Product Presentation",
-       		Years: 18 })
+       		Name: "Product Presentation"})
 CREATE (Experience3:Experience { 
-       		Name: "Product Development",
-       		Years: 14 })  
+       		Name: "Product Development"})  
 
 // Connect Experience
-CREATE (Person1)-[:HAS_EXPERIENCE]->(Experience1),
-	   (Person1)-[:HAS_EXPERIENCE]->(Experience2),
-	   (Person1)-[:HAS_EXPERIENCE]->(Experience3), 		      		 
-	   (Job1)-[:REQUIRES_EXPERIENCE]->(Experience1),
-	   (Job1)-[:REQUIRES_EXPERIENCE]->(Experience2),
-	   (Job1)-[:REQUIRES_EXPERIENCE]->(Experience3)
+CREATE (Person1)-[:HAS_EXPERIENCE {Years : 18}]->(Experience1),
+	   (Person1)-[:HAS_EXPERIENCE {Years : 18}]->(Experience2),
+	   (Person1)-[:HAS_EXPERIENCE {Years : 12}]->(Experience3), 		      		 
+	   (Job1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience1),
+	   (Job1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience2),
+	   (Job1)-[:REQUIRES_EXPERIENCE {Years : 3}]->(Experience3)
 
 RETURN *
 ----
@@ -115,7 +112,7 @@ RETURN p.FirstName As Name,type(r) as Relationship,j.Title as JobTitle
 MATCH (j:Job)-[r1:REQUIRES_SKILL|REQUIRES_EXPERIENCE]-(s)
 WITH s
 MATCH (s)-[r2:HAS_SKILL|HAS_EXPERIENCE]-(p:Person) 
-RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill
+RETURN 	p.FirstName as Name,type(r2) as Relationship ,s.Name as Skill_Experience, s.Years as Years
 ----
 
 //output
