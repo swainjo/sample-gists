@@ -213,4 +213,4 @@ RETURN p
 ----
 
 //output
-//table
+//graph       
