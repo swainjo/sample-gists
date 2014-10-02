@@ -208,9 +208,9 @@ RETURN p1.FirstName AS Name, p2.FirstName as NameOfContact, type(r) as Type
 
 [source,cypher]
 ----
-MATCH p=AllShortestPaths((n:Person { FirstName:"John" })-[*]-(m:Person { FirstName:"Gabe" })) 
+MATCH p=AllShortestPaths((n:Person { FirstName:"John" })-[EMPLOYED_AT|EMPLOYED_AS:*]-(m:Person { FirstName:"Gabe" })) 
 RETURN p
 ----
 
 //output
-//graph       
+//table       
