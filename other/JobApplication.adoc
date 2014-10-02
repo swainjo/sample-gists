@@ -216,5 +216,4 @@ WHERE p2.FirstName <> "John" AND p2.FirstName <> "Gabe"
 RETURN DISTINCT p1.FirstName, p2.FirstName, p
 ----
 
-//output
 //graph       
