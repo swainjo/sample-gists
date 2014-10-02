@@ -208,9 +208,13 @@ RETURN p1.FirstName AS Name, p2.FirstName as NameOfContact, type(r) as Type
 
 [source,cypher]
 ----
-MATCH p=AllShortestPaths((n:Person { FirstName:"John" })-[EMPLOYED_AT|EMPLOYED_AS:*]-(m:Person { FirstName:"Gabe" })) 
-RETURN p
+MATCH p =(John:Person)-[*..2]-()-[r:EMPLOYED_AS|EMPLOYED_AT]-(c:Company)-[*..2]-(Gabe:Person) 
+WHERE John.FirstName = 'John' AND Gabe.FirstName = 'Gabe' AND c.Name <> "Neo Technology" 
+WITH p 
+MATCH (p1:Person { FirstName:"Gabe" })-[*1..3]-(p2:Person) 
+WHERE p2.FirstName <> "John" AND p2.FirstName <> "Gabe" 
+RETURN DISTINCT p1.FirstName, p2.FirstName, p
 ----
 
 //output
-//table       
+//graph       
